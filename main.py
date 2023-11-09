@@ -1,7 +1,8 @@
-
 import sys
 import cv2
+import numpy as np
 from print_file import print_file
+from image_frame import image_frame
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QImage, QPixmap
@@ -12,21 +13,30 @@ class MainApp(QWidget):
     def __init__(self):
         self.capture = cv2.VideoCapture(0)
         QWidget.__init__(self)
-        self.video_size = QSize(320, 240)
+        self.video_size = QSize(640, 480)
         self.setup_ui()
         self.setup_camera()
 
     def print_photo(self):
-        cv2.imwrite('test.jpg', self.capture.read()[1])
-        # print_file('test.jpg')
+        photo = self.capture.read()[1]
+
+        alpha = 1.5
+        beta = 0
+        photo = cv2.convertScaleAbs(photo, alpha=alpha, beta=beta)
+
+        modify = np.ones(photo.shape, dtype="uint8") * 100
+        photo = cv2.subtract(photo, modify)
+
+        cv2.imwrite("test.png", photo)
+        image_frame("test.png")
+        print_file("print_test.png")
 
     def setup_ui(self):
         self.image_label = QLabel()
         self.image_label.setFixedSize(self.video_size)
 
         self.photo_button = QPushButton("찰칵!")
-        self.photo_button.clicked.connect(
-            self.print_photo)
+        self.photo_button.clicked.connect(self.print_photo)
 
         self.main_layout = QVBoxLayout()
         self.main_layout.addWidget(self.image_label)
@@ -47,8 +57,13 @@ class MainApp(QWidget):
         _, frame = self.capture.read()
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame = cv2.flip(frame, 1)
-        image = QImage(frame, frame.shape[1], frame.shape[0],
-                       frame.strides[0], QImage.Format_RGB888)
+        image = QImage(
+            frame,
+            frame.shape[1],
+            frame.shape[0],
+            frame.strides[0],
+            QImage.Format_RGB888,
+        )
         self.image_label.setPixmap(QPixmap.fromImage(image))
 
 
