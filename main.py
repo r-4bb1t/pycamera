@@ -1,8 +1,11 @@
 import sys
 import cv2
 import numpy as np
+
+# from kucc_frame import image_frame
+from sw_frame import image_frame
 from print_file import print_file
-from image_frame import image_frame
+
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QImage, QPixmap
@@ -24,12 +27,12 @@ class MainApp(QWidget):
         beta = 0
         photo = cv2.convertScaleAbs(photo, alpha=alpha, beta=beta)
 
-        modify = np.ones(photo.shape, dtype="uint8") * 100
+        modify = np.ones(photo.shape, dtype="uint8") * 120
         photo = cv2.subtract(photo, modify)
 
-        cv2.imwrite("test.png", photo)
-        image_frame("test.png")
-        print_file("print_test.png")
+        cv2.imwrite("photo.png", photo)
+        image_frame("photo.png")
+        print_file("print_photo.png")
 
     def setup_ui(self):
         self.image_label = QLabel()
