@@ -36,7 +36,7 @@ class MainApp(QWidget):
         playsound("shutter.mp3")
         cv2.imwrite("photo.png", photo)
         image_frame("photo.png")
-        # print_file("print_photo.png")
+        print_file("print_photo.png")
         time.sleep(0.3)
 
     def setup_ui(self):
