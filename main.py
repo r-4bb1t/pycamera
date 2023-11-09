@@ -5,17 +5,19 @@ import numpy as np
 # from kucc_frame import image_frame
 from sw_frame import image_frame
 from print_file import print_file
+from playsound import playsound
 
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout
-from PySide6.QtCore import QSize
-from PySide6.QtGui import QImage, QPixmap
+from PySide6.QtCore import QSize, Qt
+from PySide6.QtGui import QImage, QPixmap, QIcon
 from PySide6.QtCore import QTimer
 
 
 class MainApp(QWidget):
     def __init__(self):
-        self.capture = cv2.VideoCapture(0)
         QWidget.__init__(self)
+        self.capture = cv2.VideoCapture(0)
+        self.setStyleSheet("background-color: black;")
         self.video_size = QSize(640, 480)
         self.setup_ui()
         self.setup_camera()
@@ -30,6 +32,7 @@ class MainApp(QWidget):
         modify = np.ones(photo.shape, dtype="uint8") * 120
         photo = cv2.subtract(photo, modify)
 
+        playsound("shutter.mp3")
         cv2.imwrite("photo.png", photo)
         image_frame("photo.png")
         print_file("print_photo.png")
@@ -38,12 +41,26 @@ class MainApp(QWidget):
         self.image_label = QLabel()
         self.image_label.setFixedSize(self.video_size)
 
-        self.photo_button = QPushButton("찰칵!")
+        self.photo_button_layout = QVBoxLayout()
+        self.photo_button_layout.setContentsMargins(0, 10, 0, 10)
+        self.photo_button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.photo_button = QPushButton()
+        self.photo_button.setIcon(QIcon("camera.png"))
+        self.photo_button.setIconSize(QSize(50, 50))
+        self.photo_button.setFixedSize(100, 100)
+        self.photo_button.setStyleSheet(
+            "background-color: white; border: 0px solid; border-radius: 50px;"
+        )
         self.photo_button.clicked.connect(self.print_photo)
 
         self.main_layout = QVBoxLayout()
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.main_layout.addWidget(self.image_label)
-        self.main_layout.addWidget(self.photo_button)
+
+        self.main_layout.addLayout(self.photo_button_layout)
+        self.photo_button_layout.addWidget(self.photo_button)
 
         self.setLayout(self.main_layout)
 
