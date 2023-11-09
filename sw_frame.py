@@ -61,5 +61,5 @@ def image_frame(file):
 
     img.save(file)
     img = img.convert("L")
-    img.show()
+    # img.show()
     img.save("print_" + file)
