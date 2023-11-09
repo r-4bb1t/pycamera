@@ -5,8 +5,9 @@ import time
 
 # from kucc_frame import image_frame
 from sw_frame import image_frame
+
+# from default_frame import image_frame
 from print_file import print_file
-from playsound import playsound
 
 from PySide6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout
 from PySide6.QtCore import QSize, Qt
@@ -33,7 +34,6 @@ class MainApp(QWidget):
         modify = np.ones(photo.shape, dtype="uint8") * 120
         photo = cv2.subtract(photo, modify)
 
-        playsound("shutter.mp3")
         cv2.imwrite("photo.png", photo)
         image_frame("photo.png")
         print_file("print_photo.png")
@@ -44,7 +44,7 @@ class MainApp(QWidget):
         self.image_label.setFixedSize(self.video_size)
 
         self.photo_button_layout = QVBoxLayout()
-        self.photo_button_layout.setContentsMargins(0, 10, 0, 10)
+        self.photo_button_layout.setContentsMargins(0, 20, 0, 20)
         self.photo_button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.photo_button = QPushButton()

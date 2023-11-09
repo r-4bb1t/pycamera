@@ -9,3 +9,9 @@ Avaliable frames: 고려대학교 SW 교육봉사단, KUCC
 
 - Python 3.x
 - requirements.txt
+
+## Make .exe
+
+```shell
+pyinstaller -w -F main.py
+```

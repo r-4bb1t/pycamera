@@ -29,11 +29,7 @@ def random_text():
 def image_frame(file):
     img = Image.open(file)
     img = ImageOps.scale(img, scale)
-    img = ImageOps.expand(img, border=(0, 140 * scale, 0, 200 * scale), fill="white")
-
-    logo = Image.open("korea.gif")
-    logo = ImageOps.scale(logo, 180 / img.width * scale)
-    img.paste(logo, (round((img.width - logo.width) / 2), 30 * scale))
+    img = ImageOps.expand(img, border=(0, 0, 0, 200 * scale), fill="white")
 
     I1 = ImageDraw.Draw(img)
 
@@ -53,13 +49,6 @@ def image_frame(file):
         random_text(),
         fill=(0, 0, 0),
         font=content,
-        anchor="mm",
-    )
-    I1.text(
-        (img.width / 2, img.height - 50 * scale),
-        "고려대학교 SW교육봉사단",
-        fill=(0, 0, 0),
-        font=sub,
         anchor="mm",
     )
 
