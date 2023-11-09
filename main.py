@@ -32,7 +32,7 @@ class MainApp(QWidget):
 
         cv2.imwrite("photo.png", photo)
         image_frame("photo.png")
-        # print_file("print_photo.png")
+        print_file("print_photo.png")
 
     def setup_ui(self):
         self.image_label = QLabel()
