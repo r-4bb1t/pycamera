@@ -33,8 +33,8 @@ def image_frame(file):
 
     I1 = ImageDraw.Draw(img)
 
-    title = ImageFont.truetype("Binggrae.ttf", 16 * scale)
-    content = ImageFont.truetype("Binggrae.ttf", 24 * scale)
+    title = ImageFont.truetype("Binggrae.ttf", 24 * scale)
+    content = ImageFont.truetype("Binggrae.ttf", 30 * scale)
     sub = ImageFont.truetype("Binggrae.ttf", 18 * scale)
 
     I1.text(
@@ -45,7 +45,7 @@ def image_frame(file):
         anchor="mm",
     )
     I1.text(
-        (img.width / 2, img.height - 100 * scale),
+        (img.width / 2, img.height - 105 * scale),
         random_text(),
         fill=(0, 0, 0),
         font=content,
