@@ -10,21 +10,23 @@ from PySide6.QtCore import QTimer
 
 class MainApp(QWidget):
     def __init__(self):
+        self.capture = cv2.VideoCapture(0)
         QWidget.__init__(self)
         self.video_size = QSize(320, 240)
         self.setup_ui()
         self.setup_camera()
 
     def print_photo(self):
-        cv2.imwrite('test.jpg', cv2.VideoCapture(0).read()[1])
-        print_file('test.jpg')
+        cv2.imwrite('test.jpg', self.capture.read()[1])
+        # print_file('test.jpg')
 
     def setup_ui(self):
         self.image_label = QLabel()
         self.image_label.setFixedSize(self.video_size)
 
         self.photo_button = QPushButton("찰칵!")
-        self.photo_button.clicked.connect(self.print_photo)
+        self.photo_button.clicked.connect(
+            self.print_photo)
 
         self.main_layout = QVBoxLayout()
         self.main_layout.addWidget(self.image_label)
@@ -54,4 +56,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     win = MainApp()
     win.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
